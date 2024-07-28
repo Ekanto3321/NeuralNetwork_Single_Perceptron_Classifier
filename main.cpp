@@ -18,7 +18,7 @@ const int screenWidth = 600;
 const int screenHeight = 600;
 int numPoints = 2000;
 int frameRate = 400;
-int maxPasses = 5;
+int maxPasses = 1;
 
 int main()
 {   
@@ -60,9 +60,8 @@ void drawWindow(int height, int width, vector<point> &pt){
     {   
         BeginDrawing();
 
-            DrawText("[TRAINING]",170,680,40,DARKGRAY);
-
-            if(pass<maxPasses&&g_acc<100){
+            if(pass<maxPasses){
+                DrawText("[TRAINING]",170,680,40,DARKGRAY);
                 DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
 
                 total_error += drawPt(pt,i,error); //calling the draw function
@@ -93,15 +92,33 @@ void drawWindow(int height, int width, vector<point> &pt){
                 int target = pt[i].label;
                 
                 if(pass>0)perc.train(inputs,target); //training part
+                
+                if(pass==maxPasses)
+                {   
+                    ClearBackground(BLACK);
+                    total_error = 0;
+                }
+            }    
+
+            else if(pass<maxPasses+1&&pass>maxPasses-1){
+                error = 0;
+                vector<point> ptTest;
+                for (int i = 0; i < numPoints; i++)
+                {   
+                    point newpt(screenHeight,screenWidth);
+                    ptTest.push_back(newpt);
+                } 
+
+                DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
+
+                if(pass==maxPasses)total_error += drawPt(ptTest,i,error); //calling the draw function
+
+                if(i==pt.size()-1){
+                    cout<<"Test Accuracy: "<<total_error<<endl;
+                    pass++;
+                }
             }
 
-            //testing
-            if(pass==maxPasses){
-
-
-
-            }
-            
         EndDrawing();
     }
 
@@ -135,6 +152,7 @@ int drawPt(vector<point> &pt, int i, int error){
     return error;
     
 }
+
 
 /*
     Necessary Raylib initializations
