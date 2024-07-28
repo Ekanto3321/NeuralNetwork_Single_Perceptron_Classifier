@@ -11,7 +11,7 @@ class perceptron{
 public:
     vector<float> inputs;
     vector<float> weights;
-    float learningRate = 1;
+    float learningRate = 0.1;
     float totalError = 0;
 
     /*

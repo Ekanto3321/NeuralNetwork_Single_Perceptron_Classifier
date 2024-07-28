@@ -16,9 +16,9 @@ perceptron perc; //initializing the perceptron only once
 
 const int screenWidth = 600;
 const int screenHeight = 600;
-int numPoints = 2000;
-int frameRate = 100;
-int maxPasses = 3;
+int numPoints = 1000;
+int frameRate = 150;
+int maxPasses = 5;
 
 int main()
 {   
@@ -64,7 +64,7 @@ void drawWindow(int height, int width, vector<point> &pt){
 
             //training portion
 
-            if(pass<maxPasses){
+            if(pass<maxPasses&&g_acc<100){
                 DrawText("[TRAINING]",170,680,40,DARKGRAY);
                 DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
 
@@ -134,7 +134,7 @@ void drawWindow(int height, int width, vector<point> &pt){
 
                     cout<<"Test Accuracy: "<<testAcc<<"%"<<endl;
                     if(testAcc==100.000000){
-                        DrawText("100%(FULL)",120,740,40,DARKGRAY);
+                        DrawText("100%(FULL) [TEST]",120,740,40,DARKGRAY);
                     } else {
                         DrawText((to_string(testAcc)+"%"+" [TEST]").c_str(),120,740,40,DARKGRAY);
                     }
