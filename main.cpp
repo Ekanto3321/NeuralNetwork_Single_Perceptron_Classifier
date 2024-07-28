@@ -6,7 +6,7 @@
 
 
 void drawWindow(int height, int width, vector<point> &pt);
-void drawPt(vector<point> &pt, int i);
+int drawPt(vector<point> &pt, int i, int error);
 
 void init();
 
@@ -16,8 +16,9 @@ perceptron perc; //initializing the perceptron only once
 
 const int screenWidth = 600;
 const int screenHeight = 600;
-int numPoints = 500;
-int frameRate = 80;
+int numPoints = 2000;
+int frameRate = 400;
+int maxPasses = 5;
 
 int main()
 {   
@@ -43,17 +44,63 @@ int main()
 void drawWindow(int height, int width, vector<point> &pt){
     
     ClearBackground(BLACK);
+    DrawText("ACC: ",10,630,40,DARKGRAY);
+    DrawText("N/A",120,630,40,DARKGRAY);
+
+    DrawText("PASS: ",370,630,40,DARKGRAY);
+    DrawText("0",510,630,40,DARKGRAY);
+
     int i = 0;
+    int error = 0;
+    float total_error = 0;
+    int pass = 0;
+    int g_acc = 0;
+
     for (;!WindowShouldClose(); i++)
     {   
         BeginDrawing();
-            
-            DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
 
-            drawPt(pt, i);
+            DrawText("[TRAINING]",170,680,40,DARKGRAY);
 
-            if(i==pt.size()-1)i=0;
-            
+            if(pass<maxPasses&&g_acc<100){
+                DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
+
+                total_error += drawPt(pt,i,error); //calling the draw function
+
+                if(i==pt.size()-1){
+                    i=0;
+                    error = 0;
+                    pass++;
+                    string pass_str = to_string(pass);
+                    float acc_fl = (float)(100-(total_error/(float)numPoints)*100);
+                    g_acc = acc_fl;
+                    string accuracy = to_string(acc_fl)+"%";
+                    cout<<"Accuracy: "<<accuracy<<endl;
+                    DrawRectangle(110,620,240,50,BLACK);
+                    DrawRectangle(510,630,80,50,BLACK);
+                    
+                    if(acc_fl==100.000000){
+                        DrawText("100%(FULL)",120,630,40,DARKGRAY);
+                    } else {
+                        DrawText(accuracy.c_str(),120,630,40,DARKGRAY);
+                    }
+                    cout<<"[weights] "<<perc.getWeights()[0]<<" "<<perc.getWeights()[1]<<endl;
+                    DrawText(pass_str.c_str(),510,630,40,DARKGRAY);
+                    total_error = 0;
+                }
+
+                vector<float> inputs = {pt[i].x,pt[i].y};
+                int target = pt[i].label;
+                
+                if(pass>0)perc.train(inputs,target); //training part
+            }
+
+            //testing
+            if(pass==maxPasses){
+
+
+
+            }
             
         EndDrawing();
     }
@@ -64,7 +111,7 @@ void drawWindow(int height, int width, vector<point> &pt){
     First Draws the points in the coordinates then passes the point coordinates as inputs
     and the points labels as the target values to the train function. 
 */
-void drawPt(vector<point> &pt, int i){
+int drawPt(vector<point> &pt, int i, int error){
 
     if(pt[i].label==1){
         DrawCircle(pt[i].x,pt[i].y,6,GRAY);
@@ -81,14 +128,12 @@ void drawPt(vector<point> &pt, int i){
         DrawCircle(pt[i].x, pt[i].y,4,DARKGREEN);
     } else {
         DrawCircle(pt[i].x, pt[i].y,4,RED);
-
+        error++;
         // perc.train(inputs,target);
     }
 
-    perc.train(inputs,target);
-
+    return error;
     
-
 }
 
 /*
@@ -96,7 +141,7 @@ void drawPt(vector<point> &pt, int i){
 */
 void init(){
 
-    InitWindow(screenWidth, screenHeight, "Perceptron classification");
+    InitWindow(screenWidth, screenHeight+160, "Perceptron classification");
     SetTargetFPS(frameRate);
 
 }

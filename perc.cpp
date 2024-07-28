@@ -11,7 +11,7 @@ class perceptron{
 public:
     vector<float> inputs;
     vector<float> weights;
-    float learningRate = 0.1;
+    float learningRate = 1;
     float totalError = 0;
 
     /*
@@ -24,7 +24,7 @@ public:
         weights.resize(2);
 
         for (int i = 0; i < weights.size(); i++){
-            weights[i] = rnd(-1,1); 
+            weights[i] = rnd(-11,11); 
         }
             
     }
