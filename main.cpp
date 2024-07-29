@@ -70,7 +70,7 @@ void drawWindow(int height, int width, vector<point> &pt){
             if(pass>0)perc.train(inputs,target); //training part
 
             if(pass<maxPasses&&g_acc<100){
-                DrawText("[TRAINING]",170,680,40,DARKGRAY);
+                DrawText("[TRAINING]",170,680,40,BLUE);
                 DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
 
                 total_error += drawPt(pt,i,error); //calling the draw function
@@ -88,9 +88,9 @@ void drawWindow(int height, int width, vector<point> &pt){
                     DrawRectangle(510,630,80,50,BLACK);
                     
                     if(acc_fl==100.000000){
-                        DrawText("100%(FULL)",120,630,40,DARKGRAY);
+                        DrawText("100%(FULL)",120,630,40,BLUE);
                     } else {
-                        DrawText(accuracy.c_str(),120,630,40,DARKGRAY);
+                        DrawText(accuracy.c_str(),120,630,40,BLUE);
                     }
                     cout<<"[weights] "<<perc.getWeights()[0]<<" "<<perc.getWeights()[1]<<endl;
                     DrawText(pass_str.c_str(),510,630,40,DARKGRAY);
@@ -103,7 +103,7 @@ void drawWindow(int height, int width, vector<point> &pt){
                     ClearBackground(BLACK);
                     DrawRectangle(0,screenHeight+80,screenWidth,50,BLACK);
                     total_error = 0;
-                    DrawText("[TESTING]",200,680,40,DARKGRAY); 
+                    DrawText("[TESTING]",200,680,40,RED); 
                     DrawText("ACC: ",10,630,40,DARKGRAY);
 
                     DrawText("PASS: ",370,630,40,DARKGRAY);
@@ -134,9 +134,9 @@ void drawWindow(int height, int width, vector<point> &pt){
 
                     cout<<"Test Accuracy: "<<testAcc<<"%"<<endl;
                     if(testAcc==100.000000){
-                        DrawText("100%(FULL) [TEST]",120,740,40,DARKGRAY);
+                        DrawText("100%(FULL) [TEST]",120,740,40,RED);
                     } else {
-                        DrawText((to_string(testAcc)+"%"+" [TEST]").c_str(),120,740,40,DARKGRAY);
+                        DrawText((to_string(testAcc)+"%"+" [TEST]").c_str(),120,740,40,RED);
                     }
                     pass++;
                 }
