@@ -18,7 +18,7 @@ const int screenWidth = 600;
 const int screenHeight = 600;
 int numPoints = 1000;
 int frameRate = 150;
-int maxPasses = 5;
+int maxPasses = 3;
 
 int main()
 {   
@@ -64,6 +64,11 @@ void drawWindow(int height, int width, vector<point> &pt){
 
             //training portion
 
+            vector<float> inputs = {pt[i].x,pt[i].y};
+            int target = pt[i].label;
+                
+            if(pass>0)perc.train(inputs,target); //training part
+
             if(pass<maxPasses&&g_acc<100){
                 DrawText("[TRAINING]",170,680,40,DARKGRAY);
                 DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
@@ -104,11 +109,6 @@ void drawWindow(int height, int width, vector<point> &pt){
                     DrawText("PASS: ",370,630,40,DARKGRAY);
                     DrawText("ACC: ",10,740,40,DARKGRAY);
                 }
-
-                vector<float> inputs = {pt[i].x,pt[i].y};
-                int target = pt[i].label;
-                
-                if(pass>0)perc.train(inputs,target); //training part
                 
                 
             }    
