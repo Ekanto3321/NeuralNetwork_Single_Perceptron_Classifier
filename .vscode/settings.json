@@ -16,6 +16,7 @@
         "__functional_03": "cpp",
         "target": "cpp",
         "iostream": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "__split_buffer": "cpp"
     }
 }

@@ -5,7 +5,7 @@
 #include "point.cpp"
 
 
-void drawWindow(int height, int width, vector<point> &pt);
+void drawWindow(int height, int width, vector<point> &pt, vector<point> &ptTest);
 int drawPt(vector<point> &pt, int i, int error);
 
 void init();
@@ -16,9 +16,9 @@ perceptron perc; //initializing the perceptron only once
 
 const int screenWidth = 600;
 const int screenHeight = 600;
-int numPoints = 1000;
-int frameRate = 250;
-int maxPasses = 3;
+int numPoints = 5000;
+int frameRate = 2000;
+int maxPasses = 5;
 
 int main()
 {   
@@ -30,8 +30,15 @@ int main()
         point newpt(screenHeight,screenWidth);
         pt.push_back(newpt);
     }   
+
+    vector<point> ptTest;
+        for (int i = 0; i < numPoints; i++)
+        {   
+            point newpt(screenHeight,screenWidth);
+            ptTest.push_back(newpt);
+        } 
     
-    drawWindow(screenHeight,screenWidth, pt);
+    drawWindow(screenHeight,screenWidth, pt, ptTest);
 
     CloseWindow(); 
     
@@ -41,7 +48,7 @@ int main()
 /*
     Draws the window and acts as the main loop for triggering the core functions
 */
-void drawWindow(int height, int width, vector<point> &pt){
+void drawWindow(int height, int width, vector<point> &pt, vector<point> &ptTest){
     
     ClearBackground(BLACK);
     DrawText("ACC: ",10,630,40,DARKGRAY);
@@ -118,12 +125,7 @@ void drawWindow(int height, int width, vector<point> &pt){
             else if(pass<maxPasses+1&&pass>maxPasses-1){
 
                 error = 0;
-                vector<point> ptTest;
-                for (int i = 0; i < numPoints; i++)
-                {   
-                    point newpt(screenHeight,screenWidth);
-                    ptTest.push_back(newpt);
-                } 
+                
 
                 DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
 
