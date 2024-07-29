@@ -16,8 +16,8 @@ perceptron perc; //initializing the perceptron only once
 
 const int screenWidth = 600;
 const int screenHeight = 600;
-int numPoints = 5000;
-int frameRate = 2000;
+int numPoints = 1000;
+int frameRate = 150;
 int maxPasses = 5;
 
 int main()
