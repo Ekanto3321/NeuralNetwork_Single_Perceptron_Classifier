@@ -10,6 +10,9 @@ How to run:
 For linux, Just run the run.sh script from the project directory.
 For windows, I honestly don't know why are you using windows anyways? 
 
+>demo video
+https://youtu.be/-ywSf7nctXE
+
 >Screenshots
 
 
