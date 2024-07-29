@@ -17,8 +17,8 @@ perceptron perc; //initializing the perceptron only once
 const int screenWidth = 600;
 const int screenHeight = 600;
 int numPoints = 1000;
-int frameRate = 150;
-int maxPasses = 3;
+int frameRate = 250;
+int maxPasses = 5;
 
 int main()
 {   
@@ -69,7 +69,7 @@ void drawWindow(int height, int width, vector<point> &pt){
                 
             if(pass>0)perc.train(inputs,target); //training part
 
-            if(pass<maxPasses&&g_acc<100){
+            if(pass<maxPasses||g_acc<100){
                 DrawText("[TRAINING]",170,680,40,BLUE);
                 DrawLine(0,0,screenHeight,screenWidth,LIGHTGRAY);
 
